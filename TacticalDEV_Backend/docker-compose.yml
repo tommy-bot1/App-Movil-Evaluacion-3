@@ -1,0 +1,18 @@
+# PostgreSQL opcional. Por defecto los microservicios usan H2 en archivo (no requiere instalar nada).
+# Uso:  docker compose up -d     y luego arrancar cada microservicio con el perfil "postgres".
+services:
+  postgres:
+    image: postgres:16
+    container_name: tactical-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: tactical
+      POSTGRES_PASSWORD: tactical
+      POSTGRES_DB: tactical_usuarios
+    ports:
+      - "5432:5432"
+    volumes:
+      - tactical_pgdata:/var/lib/postgresql/data
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+volumes:
+  tactical_pgdata:
